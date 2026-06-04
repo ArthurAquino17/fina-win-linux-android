@@ -1,0 +1,2 @@
+Bottle>=0.13
+PyInstaller>=6.0

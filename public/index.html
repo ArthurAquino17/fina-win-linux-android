@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fina - Controle Financeiro</title>
+    <meta name="theme-color" content="#0f172a" />
+    <meta http-equiv="Cache-Control" content="no-store" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <link rel="icon" href="./favicon.ico" />
+    <link rel="manifest" href="./manifest.json" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <section id="authScreen" class="auth-screen" hidden>
+      <div class="auth-card">
+        <p class="eyebrow">Fina</p>
+        <h1>Entrar no controle financeiro</h1>
+        <p class="subtitle">Use um email e senha para abrir seu painel no navegador.</p>
+
+        <form id="authForm" class="auth-form">
+          <label>
+            <span>Nome</span>
+            <input type="text" id="authName" placeholder="Seu nome" />
+          </label>
+          <label>
+            <span>Email</span>
+            <input type="email" id="authEmail" placeholder="voce@email.com" required />
+          </label>
+          <label>
+            <span>Senha</span>
+            <input type="password" id="authPassword" placeholder="Sua senha" required />
+          </label>
+
+          <div class="auth-actions">
+            <button type="submit" id="authSubmitBtn" class="primary">Entrar</button>
+            <button type="button" id="authToggleBtn" class="secondary">Criar conta</button>
+          </div>
+          <p id="authMessage" class="auth-message"></p>
+        </form>
+      </div>
+    </section>
+
+    <main id="appMain" class="app-shell" hidden>
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Fina</p>
+          <h1>Controle financeiro no navegador</h1>
+          <p class="subtitle">Lançamentos, métricas, dashboard por categoria e dicas práticas.</p>
+        </div>
+        <div class="topbar-actions">
+          <span id="userBadge" class="user-badge"></span>
+          <button id="installBtn" class="secondary" hidden>Instalar app</button>
+          <button id="lockBtn" class="secondary">Bloquear</button>
+          <button id="logoutBtn" class="ghost">Sair</button>
+        </div>
+      </header>
+
+      <nav class="tabbar" aria-label="Seções do Fina">
+        <button class="tab-button active" type="button" data-tab-button="overview">Visão geral</button>
+        <button class="tab-button" type="button" data-tab-button="transactions">Lançamentos</button>
+        <button class="tab-button" type="button" data-tab-button="planning">Planejamento</button>
+        <button class="tab-button" type="button" data-tab-button="automation">Automação</button>
+        <button class="tab-button" type="button" data-tab-button="reports">Relatórios</button>
+        <button class="tab-button" type="button" data-tab-button="settings">Configurações</button>
+      </nav>
+
+      <section class="summary-grid" id="summaryCards" data-tab="overview reports">
+        <article class="summary-card">
+          <span>Receitas</span>
+          <strong id="incomeTotal">R$ 0,00</strong>
+        </article>
+        <article class="summary-card">
+          <span>Despesas</span>
+          <strong id="expenseTotal">R$ 0,00</strong>
+        </article>
+        <article class="summary-card">
+          <span>Saldo</span>
+          <strong id="balanceTotal">R$ 0,00</strong>
+        </article>
+        <article class="summary-card">
+          <span>Gasto da renda</span>
+          <strong id="expenseRatio">0%</strong>
+        </article>
+        <article class="summary-card">
+          <span>Orçamento</span>
+          <strong id="budgetHealth">Saudável</strong>
+        </article>
+        <article class="summary-card">
+          <span>Fixos mensais</span>
+          <strong id="recurringTotal">R$ 0,00</strong>
+        </article>
+        <article class="summary-card">
+          <span>Score financeiro</span>
+          <strong id="financeScore">0</strong>
+        </article>
+        <article class="summary-card">
+          <span>Previsão do mês</span>
+          <strong id="monthForecast">R$ 0,00</strong>
+        </article>
+      </section>
+
+      <section class="layout">
+        <aside class="panel stack">
+          <section class="card" data-tab="transactions">
+            <div class="card-head">
+              <h2>Novo lançamento</h2>
+              <button id="clearFormBtn" class="ghost">Limpar</button>
+            </div>
+
+            <form id="transactionForm" class="form-grid">
+              <label>
+                <span>Data</span>
+                <input type="date" id="txDate" required />
+              </label>
+              <label>
+                <span>Descrição</span>
+                <input type="text" id="txDescription" list="descriptionSuggestions" placeholder="Ex: Mercado" required />
+                <datalist id="descriptionSuggestions"></datalist>
+              </label>
+              <label>
+                <span>Categoria</span>
+                <select id="txCategory"></select>
+              </label>
+              <label>
+                <span>Valor</span>
+                <input type="number" id="txAmount" step="0.01" min="0" placeholder="0,00" required />
+              </label>
+              <label>
+                <span>Tipo</span>
+                <select id="txType">
+                  <option value="Despesa">Despesa</option>
+                  <option value="Receita">Receita</option>
+                </select>
+              </label>
+              <label>
+                <span>Conta</span>
+                <select id="txAccount"></select>
+              </label>
+              <label class="full">
+                <span>Observação</span>
+                <input type="text" id="txNote" placeholder="Opcional" />
+              </label>
+
+              <div class="form-actions full">
+                <button type="submit" class="primary">Salvar</button>
+                <button type="button" id="deleteBtn" class="danger" disabled>Excluir</button>
+              </div>
+            </form>
+          </section>
+
+          <section class="card" data-tab="transactions reports">
+            <div class="card-head">
+              <h2>Filtros</h2>
+            </div>
+            <div class="filters">
+              <label>
+                <span>Busca</span>
+                <input type="search" id="searchInput" placeholder="Descrição, categoria, observação" />
+              </label>
+              <label>
+                <span>Tipo</span>
+                <select id="filterType">
+                  <option value="Todos">Todos</option>
+                  <option value="Despesa">Despesa</option>
+                  <option value="Receita">Receita</option>
+                </select>
+              </label>
+              <label>
+                <span>Mês</span>
+                <input type="month" id="filterMonth" />
+              </label>
+              <label>
+                <span>Categoria</span>
+                <select id="filterCategory"></select>
+              </label>
+              <label>
+                <span>Valor mínimo</span>
+                <input type="number" id="filterMinAmount" min="0" step="0.01" placeholder="0,00" />
+              </label>
+              <label>
+                <span>Valor máximo</span>
+                <input type="number" id="filterMaxAmount" min="0" step="0.01" placeholder="0,00" />
+              </label>
+              <button id="applyFiltersBtn" class="secondary">Aplicar</button>
+            </div>
+          </section>
+
+          <section class="card" data-tab="overview reports">
+            <div class="card-head">
+              <h2>Insights</h2>
+            </div>
+            <div class="insights">
+              <p id="statusLine">Cadastre uma receita para calcular os indicadores.</p>
+              <p id="incomeRatioLine">Despesa sobre renda: 0%</p>
+              <p id="savingsLine">Taxa de poupança: 0%</p>
+              <p id="topCategoryLine">Maior categoria: -</p>
+              <p id="guidanceLine">Cadastre receitas e despesas para ver recomendações.</p>
+            </div>
+          </section>
+
+          <section class="card" data-tab="overview reports">
+            <div class="card-head">
+              <h2>Coach financeiro</h2>
+            </div>
+            <ul id="coachList" class="coach-list"></ul>
+            <div class="card-head small-head">
+              <h2>Plano de ação</h2>
+            </div>
+            <ol id="actionPlanList" class="coach-list action-list"></ol>
+          </section>
+
+          <section class="card" data-tab="settings">
+            <div class="card-head">
+              <h2>Configurações</h2>
+            </div>
+            <div class="settings-grid">
+              <label class="toggle-row">
+                <input type="checkbox" id="darkModeToggle" />
+                <span>Modo escuro</span>
+              </label>
+              <label class="toggle-row">
+                <input type="checkbox" id="tutorialToggle" />
+                <span>Mostrar tutorial</span>
+              </label>
+              <button id="autoBackupBtn" class="secondary" type="button">Salvar snapshot local</button>
+              <button id="resetDataBtn" class="danger" type="button">Redefinir dados</button>
+              <button id="deleteAccountBtn" class="danger" type="button">Excluir minha conta</button>
+            </div>
+          </section>
+
+          <section class="card" data-tab="reports settings">
+            <div class="card-head">
+              <h2>Backup</h2>
+            </div>
+            <div class="backup-actions">
+              <button id="exportJsonBtn" class="secondary" type="button">Exportar backup</button>
+              <button id="exportReportBtn" class="secondary" type="button">Exportar relatório</button>
+              <label class="file-button">
+                Importar backup
+                <input id="importJsonInput" type="file" accept="application/json" />
+              </label>
+              <label class="file-button">
+                Importar CSV
+                <input id="importCsvInput" type="file" accept=".csv,text/csv" />
+              </label>
+            </div>
+          </section>
+        </aside>
+
+        <section class="panel stack">
+          <section class="card" id="tutorialCard" data-tab="overview">
+            <div class="card-head">
+              <h2>Primeiros passos</h2>
+            </div>
+            <ul class="tutorial-list">
+              <li>Crie sua primeira receita.</li>
+              <li>Cadastre despesas reais do mês.</li>
+              <li>Defina limites por categoria.</li>
+              <li>Inclua gastos fixos em recorrências.</li>
+              <li>Exporte um backup depois de configurar tudo.</li>
+            </ul>
+          </section>
+
+          <section class="card" data-tab="planning">
+            <div class="card-head">
+              <h2>Metas financeiras</h2>
+            </div>
+            <form id="goalForm" class="form-grid compact-form">
+              <label>
+                <span>Meta</span>
+                <input type="text" id="goalName" placeholder="Ex: Reserva de emergência" required />
+              </label>
+              <label>
+                <span>Valor alvo</span>
+                <input type="number" id="goalTarget" step="0.01" min="0" placeholder="0,00" required />
+              </label>
+              <label>
+                <span>Valor atual</span>
+                <input type="number" id="goalCurrent" step="0.01" min="0" placeholder="0,00" />
+              </label>
+              <label>
+                <span>Tipo</span>
+                <select id="goalType">
+                  <option value="Reserva">Reserva</option>
+                  <option value="Divida">Quitar dívida</option>
+                  <option value="Investimento">Investimento</option>
+                  <option value="Compra">Compra planejada</option>
+                </select>
+              </label>
+              <button class="primary full" type="submit">Salvar meta</button>
+            </form>
+            <div id="goalList" class="category-list"></div>
+          </section>
+
+          <section class="card" data-tab="automation">
+            <div class="card-head">
+              <h2>Compras parceladas</h2>
+            </div>
+            <form id="installmentForm" class="form-grid compact-form">
+              <label>
+                <span>Descrição</span>
+                <input type="text" id="installmentDescription" placeholder="Ex: Notebook" required />
+              </label>
+              <label>
+                <span>Categoria</span>
+                <select id="installmentCategory"></select>
+              </label>
+              <label>
+                <span>Valor total</span>
+                <input type="number" id="installmentTotal" step="0.01" min="0" placeholder="0,00" required />
+              </label>
+              <label>
+                <span>Parcelas</span>
+                <input type="number" id="installmentCount" min="1" max="48" value="2" required />
+              </label>
+              <label>
+                <span>Primeira data</span>
+                <input type="date" id="installmentDate" required />
+              </label>
+              <label>
+                <span>Conta</span>
+                <select id="installmentAccount"></select>
+              </label>
+              <button class="primary full" type="submit">Gerar parcelas</button>
+            </form>
+          </section>
+
+          <section class="card" data-tab="planning">
+            <div class="card-head">
+              <h2>Contas e carteiras</h2>
+            </div>
+            <form id="accountForm" class="form-grid compact-form">
+              <label>
+                <span>Nome da conta</span>
+                <input type="text" id="accountName" placeholder="Ex: Banco" required />
+              </label>
+              <label>
+                <span>Saldo inicial</span>
+                <input type="number" id="accountInitial" step="0.01" placeholder="0,00" />
+              </label>
+              <button class="primary full" type="submit">Adicionar conta</button>
+            </form>
+            <div id="accountList" class="category-list"></div>
+          </section>
+
+          <section class="card" data-tab="settings planning">
+            <div class="card-head">
+              <h2>Categorias</h2>
+            </div>
+            <form id="categoryForm" class="form-grid compact-form">
+              <label class="full">
+                <span>Nova categoria</span>
+                <input type="text" id="categoryName" placeholder="Ex: Pet, Viagem, Trabalho" required />
+              </label>
+              <button class="primary full" type="submit">Adicionar categoria</button>
+            </form>
+            <div id="customCategoryList" class="category-list"></div>
+          </section>
+
+          <section class="card" data-tab="overview reports">
+            <div class="card-head">
+              <h2>Dashboard mensal</h2>
+            </div>
+            <div id="monthlyDashboard" class="metric-grid"></div>
+          </section>
+
+          <section class="card" data-tab="planning">
+            <div class="card-head">
+              <h2>Orçamentos por categoria</h2>
+            </div>
+            <form id="budgetForm" class="form-grid compact-form">
+              <label>
+                <span>Categoria</span>
+                <select id="budgetCategory"></select>
+              </label>
+              <label>
+                <span>Limite mensal</span>
+                <input type="number" id="budgetLimit" step="0.01" min="0" placeholder="0,00" required />
+              </label>
+              <button class="primary full" type="submit">Salvar limite</button>
+            </form>
+            <div id="budgetList" class="category-list"></div>
+          </section>
+
+          <section class="card" data-tab="automation">
+            <div class="card-head">
+              <h2>Recorrências mensais</h2>
+            </div>
+            <form id="recurringForm" class="form-grid compact-form">
+              <label>
+                <span>Descrição</span>
+                <input type="text" id="recurringDescription" placeholder="Ex: Aluguel" required />
+              </label>
+              <label>
+                <span>Categoria</span>
+                <select id="recurringCategory"></select>
+              </label>
+              <label>
+                <span>Valor</span>
+                <input type="number" id="recurringAmount" step="0.01" min="0" placeholder="0,00" required />
+              </label>
+              <label>
+                <span>Tipo</span>
+                <select id="recurringType">
+                  <option value="Despesa">Despesa</option>
+                  <option value="Receita">Receita</option>
+                </select>
+              </label>
+              <label>
+                <span>Dia do mês</span>
+                <input type="number" id="recurringDay" min="1" max="28" value="5" required />
+              </label>
+              <button class="primary" type="submit">Adicionar</button>
+            </form>
+            <div id="recurringList" class="category-list"></div>
+          </section>
+
+          <section class="card" data-tab="overview reports">
+            <div class="card-head">
+              <h2>Dashboard por categoria</h2>
+            </div>
+            <div class="chart-wrap">
+              <canvas id="categoryChart" width="900" height="260"></canvas>
+            </div>
+            <div id="categoryList" class="category-list"></div>
+          </section>
+
+          <section class="card" data-tab="transactions reports">
+            <div class="card-head">
+              <h2>Lançamentos</h2>
+              <button id="exportBtn" class="secondary">Exportar CSV</button>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Data</th>
+                    <th>Descrição</th>
+                    <th>Categoria</th>
+                    <th>Tipo</th>
+                    <th>Valor</th>
+                    <th>Obs.</th>
+                  </tr>
+                </thead>
+                <tbody id="transactionsTbody"></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
