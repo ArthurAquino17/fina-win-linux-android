@@ -410,7 +410,14 @@ function switchTab(tabName) {
 
 function initTabs() {
   document.querySelectorAll("[data-tab-button]").forEach((button) => {
-    button.addEventListener("click", () => switchTab(button.dataset.tabButton));
+    button.addEventListener("click", () => {
+      switchTab(button.dataset.tabButton);
+      const focusTarget = button.dataset.focusTarget ? document.getElementById(button.dataset.focusTarget) : null;
+      if (focusTarget) {
+        focusTarget.scrollIntoView({ behavior: "smooth", block: "center" });
+        window.setTimeout(() => focusTarget.focus(), 180);
+      }
+    });
   });
   switchTab(state.activeTab);
 }
@@ -855,12 +862,12 @@ function drawCategoryChart(transactions) {
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   ctx.clearRect(0, 0, cssWidth, cssHeight);
 
-  ctx.fillStyle = "#f8fafc";
+  ctx.fillStyle = "#081322";
   ctx.fillRect(0, 0, cssWidth, cssHeight);
 
   const totals = categoryTotals(transactions);
   if (!totals.length) {
-    ctx.fillStyle = "#64748b";
+    ctx.fillStyle = "#8fb0c7";
     ctx.font = "14px system-ui";
     ctx.fillText("Cadastre despesas para visualizar o grafico por categoria.", 30, 130);
     return;
@@ -877,7 +884,7 @@ function drawCategoryChart(transactions) {
   const slotWidth = (right - left - 20) / items.length;
   const barWidth = Math.min(78, slotWidth * 0.58);
 
-  ctx.strokeStyle = "#cbd5e1";
+  ctx.strokeStyle = "rgba(103, 232, 249, 0.38)";
   ctx.lineWidth = 2;
   ctx.beginPath();
   ctx.moveTo(left, top);
@@ -887,13 +894,13 @@ function drawCategoryChart(transactions) {
 
   for (let tick = 0; tick <= 100; tick += 20) {
     const y = bottom - (plotHeight * tick) / 100;
-    ctx.strokeStyle = "#e2e8f0";
+    ctx.strokeStyle = "rgba(143, 176, 199, 0.18)";
     ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.moveTo(left, y);
     ctx.lineTo(right, y);
     ctx.stroke();
-    ctx.fillStyle = "#64748b";
+    ctx.fillStyle = "#8fb0c7";
     ctx.font = "11px system-ui";
     ctx.textAlign = "right";
     ctx.fillText(`${tick}%`, left - 8, y + 4);
@@ -907,17 +914,17 @@ function drawCategoryChart(transactions) {
     const centerX = left + 20 + slotWidth * index + slotWidth / 2;
     const x = centerX - barWidth / 2;
     const y = bottom - barHeight;
-    const color = shareIncome >= 0.3 ? "#dc2626" : shareIncome >= 0.15 ? "#ea580c" : shareIncome >= 0.08 ? "#d97706" : "#2563eb";
+    const color = shareIncome >= 0.3 ? "#ff6b81" : shareIncome >= 0.15 ? "#ff855c" : shareIncome >= 0.08 ? "#ffd166" : "#22d3ee";
 
     ctx.fillStyle = color;
     ctx.fillRect(x, y, barWidth, barHeight);
-    ctx.fillStyle = "#0f172a";
+    ctx.fillStyle = "#e9f8ff";
     ctx.font = "bold 12px system-ui";
     ctx.textAlign = "center";
     ctx.fillText(floatToMoney(amount), centerX, y - 10);
     ctx.font = "11px system-ui";
     wrapText(ctx, item.category, centerX, bottom + 18, slotWidth - 12, 13);
-    ctx.fillStyle = "#475569";
+    ctx.fillStyle = "#8fb0c7";
     ctx.font = "10px system-ui";
     wrapText(ctx, `${Math.round(shareExpense * 100)}% despesas | ${Math.round(shareIncome * 100)}% renda`, centerX, bottom + 40, slotWidth - 12, 12);
   });
