@@ -1844,29 +1844,24 @@ function bindEvents() {
   els.authForm.addEventListener("submit", handleAuthSubmit);
 }
 
-function cleanupServiceWorkers() {
-  if ("serviceWorker" in navigator && typeof navigator.serviceWorker.getRegistrations === "function") {
-    navigator.serviceWorker
-      .getRegistrations()
-      .then((registrations) => registrations.forEach((registration) => registration.unregister()))
-      .catch(() => {});
-  }
-
-  if ("caches" in window) {
-    caches
-      .keys()
-      .then((keys) => Promise.all(keys.map((key) => caches.delete(key))))
-      .catch(() => {});
-  }
-}
-
 function setupPWA() {
-  cleanupServiceWorkers();
   els.installBtn.hidden = true;
+
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("./sw.js").catch(() => {});
+    });
+  }
 
   window.addEventListener("beforeinstallprompt", (event) => {
     event.preventDefault();
     state.deferredPrompt = event;
+    els.installBtn.hidden = false;
+  });
+
+  window.addEventListener("appinstalled", () => {
+    state.deferredPrompt = null;
+    els.installBtn.hidden = true;
   });
 
   els.installBtn.addEventListener("click", async () => {

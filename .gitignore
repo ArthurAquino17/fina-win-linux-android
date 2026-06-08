@@ -1,0 +1,8 @@
+node_modules/
+
+# Capacitor/Android generated outputs
+android/.gradle/
+android/**/build/
+android/local.properties
+*.apk
+*.aab

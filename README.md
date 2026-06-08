@@ -1,11 +1,12 @@
 # Fina Robusto
 
-Versao mais completa do Fina, com dados locais no navegador e empacotamento para Linux e Windows.
+Versao mais completa do Fina, com dados locais no navegador e empacotamento para Linux, Windows, PWA e Android.
 
 ## Estrutura
 
 ```text
 public/     Interface web: HTML, CSS, JavaScript, manifest e icones.
+android/    Projeto Android gerado pelo Capacitor.
 docs/       Guias de build e uso.
 legacy/     Versao Python/Tkinter antiga preservada.
 dist/       Executaveis gerados.
@@ -61,3 +62,29 @@ Windows pelo Wine:
 ```bash
 ./build-windows-linux.sh
 ```
+
+## PWA no navegador
+
+Rode o servidor local e abra o app no Chrome/Edge. Quando o navegador liberar a instalacao, use o botao `Instalar app`.
+
+```bash
+.venv/bin/python server.py
+```
+
+## Android
+
+Instale as dependencias Java/Android e sincronize o projeto:
+
+```bash
+npm install
+npm run android:sync
+```
+
+Para gerar um APK debug:
+
+```bash
+cd android
+./gradlew assembleDebug
+```
+
+O APK fica em `android/app/build/outputs/apk/debug/app-debug.apk`.

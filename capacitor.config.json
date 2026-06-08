@@ -1,0 +1,8 @@
+{
+  "appId": "br.com.fina.app",
+  "appName": "Fina",
+  "webDir": "public",
+  "server": {
+    "androidScheme": "https"
+  }
+}

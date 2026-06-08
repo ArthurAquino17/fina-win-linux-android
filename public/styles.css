@@ -347,10 +347,47 @@ h1 {
 
 .tutorial-list {
   display: grid;
-  gap: 8px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
   margin: 0;
-  padding-left: 18px;
+  padding: 0;
+  list-style: none;
+  counter-reset: tutorial-step;
+}
+
+.tutorial-list li {
+  counter-increment: tutorial-step;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 4px 10px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface-strong);
+  line-height: 1.4;
+}
+
+.tutorial-list li::before {
+  content: counter(tutorial-step);
+  grid-row: span 2;
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.86rem;
+}
+
+.tutorial-list strong {
+  color: var(--text);
+}
+
+.tutorial-list span {
   color: var(--muted);
+  font-size: 0.92rem;
 }
 
 .settings-grid {
@@ -565,7 +602,8 @@ tr:hover td {
   .summary-grid,
   .metric-grid,
   .form-grid,
-  .filters {
+  .filters,
+  .tutorial-list {
     grid-template-columns: 1fr;
   }
 

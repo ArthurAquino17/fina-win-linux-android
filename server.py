@@ -50,6 +50,9 @@ def assets(filepath: str) -> object:
         "manifest.json",
         "sw.js",
         "icon.svg",
+        "icon-192.png",
+        "icon-512.png",
+        "icon-maskable-512.png",
         "favicon.ico",
     }
     if filepath not in allowed:

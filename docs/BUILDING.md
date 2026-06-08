@@ -95,3 +95,48 @@ Se você colocar um arquivo `assets/app.ico` ou `app.ico` na raiz do projeto, o 
 - O executável Windows (`.exe`) deve ser gerado em uma máquina Windows.
 - Em Linux, o mesmo comando gera um executável Linux.
 - O app salva os dados no navegador/localStorage do usuário.
+
+## PWA
+
+A pasta `public/` contem o `manifest.json`, os icones PNG e o `sw.js` com cache dos arquivos principais. Para testar:
+
+```bash
+.venv/bin/python server.py
+```
+
+Abra `http://127.0.0.1:8080/`. Em navegadores compativeis, o botao `Instalar app` aparece quando o evento de instalacao estiver disponivel.
+
+## Android com Capacitor
+
+O projeto Android fica em `android/` e usa os arquivos estaticos de `public/`.
+
+Instale as dependencias Node:
+
+```bash
+npm install
+```
+
+Sincronize alteracoes do app web para Android:
+
+```bash
+npm run android:sync
+```
+
+Para abrir no Android Studio:
+
+```bash
+npm run android:open
+```
+
+Para gerar APK debug pela linha de comando, instale antes JDK e Android SDK. Depois:
+
+```bash
+cd android
+./gradlew assembleDebug
+```
+
+Saida esperada:
+
+```text
+android/app/build/outputs/apk/debug/app-debug.apk
+```
