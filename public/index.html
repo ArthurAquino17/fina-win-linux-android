@@ -44,7 +44,7 @@
 
     <main id="appMain" class="app-shell" hidden>
       <header class="topbar">
-        <div>
+        <div class="topbar-copy">
           <p class="eyebrow">Fina</p>
           <h1>Controle financeiro no navegador</h1>
           <p class="subtitle">Lançamentos, métricas, dashboard por categoria e dicas práticas.</p>
@@ -56,6 +56,25 @@
           <button id="logoutBtn" class="ghost">Sair</button>
         </div>
       </header>
+
+      <section class="quick-actions" aria-label="Ações rápidas">
+        <button class="quick-action is-primary" type="button" data-tab-button="transactions" data-focus-target="txDescription">
+          <span class="action-symbol">+</span>
+          <span>Novo lançamento</span>
+        </button>
+        <button class="quick-action" type="button" data-tab-button="planning" data-focus-target="budgetLimit">
+          <span class="action-symbol">$</span>
+          <span>Definir orçamento</span>
+        </button>
+        <button class="quick-action" type="button" data-tab-button="automation" data-focus-target="recurringDescription">
+          <span class="action-symbol">*</span>
+          <span>Gasto fixo</span>
+        </button>
+        <button class="quick-action" type="button" data-tab-button="reports">
+          <span class="action-symbol">%</span>
+          <span>Ver relatório</span>
+        </button>
+      </section>
 
       <nav class="tabbar" aria-label="Seções do Fina">
         <button class="tab-button active" type="button" data-tab-button="overview">Visão geral</button>

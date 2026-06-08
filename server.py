@@ -5,6 +5,7 @@ import threading
 import time
 import webbrowser
 import errno
+import socket
 from pathlib import Path
 
 from bottle import Bottle, response, run, static_file
@@ -65,9 +66,22 @@ def open_browser(port: int) -> None:
     webbrowser.open(f"http://127.0.0.1:{port}")
 
 
+def is_port_available(port: int) -> bool:
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        try:
+            sock.bind(("127.0.0.1", port))
+        except OSError:
+            return False
+    return True
+
+
 def main() -> int:
     last_error: OSError | None = None
     for port in range(DEFAULT_PORT, DEFAULT_PORT + 20):
+        if not is_port_available(port):
+            print(f"Porta {port} ocupada, tentando a proxima...")
+            continue
         try:
             threading.Thread(target=open_browser, args=(port,), daemon=True).start()
             print(f"Fina rodando em http://127.0.0.1:{port}")
