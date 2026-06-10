@@ -57,35 +57,86 @@
         </div>
       </header>
 
-      <section class="quick-actions" aria-label="Ações rápidas">
-        <button class="quick-action is-primary" type="button" data-tab-button="transactions" data-focus-target="txDescription">
-          <span class="action-symbol">+</span>
-          <span>Novo lançamento</span>
-        </button>
-        <button class="quick-action" type="button" data-tab-button="planning" data-focus-target="budgetLimit">
-          <span class="action-symbol">$</span>
-          <span>Definir orçamento</span>
-        </button>
-        <button class="quick-action" type="button" data-tab-button="automation" data-focus-target="recurringDescription">
-          <span class="action-symbol">*</span>
-          <span>Gasto fixo</span>
-        </button>
-        <button class="quick-action" type="button" data-tab-button="reports">
-          <span class="action-symbol">%</span>
-          <span>Ver relatório</span>
-        </button>
-      </section>
-
       <nav class="tabbar" aria-label="Seções do Fina">
-        <button class="tab-button active" type="button" data-tab-button="overview">Visão geral</button>
-        <button class="tab-button" type="button" data-tab-button="transactions">Lançamentos</button>
+        <button class="tab-button active" type="button" data-tab-button="overview">Menu</button>
+        <button class="tab-button" type="button" data-tab-button="expenses">Despesas</button>
+        <button class="tab-button" type="button" data-tab-button="income">Rendas</button>
         <button class="tab-button" type="button" data-tab-button="planning">Planejamento</button>
+        <button class="tab-button" type="button" data-tab-button="investments">Investimentos</button>
+        <button class="tab-button" type="button" data-tab-button="portfolio">Portfólio</button>
+        <button class="tab-button" type="button" data-tab-button="cards">Cartões</button>
+        <button class="tab-button" type="button" data-tab-button="miles">Milhas</button>
+        <button class="tab-button" type="button" data-tab-button="education">Educação</button>
         <button class="tab-button" type="button" data-tab-button="automation">Automação</button>
         <button class="tab-button" type="button" data-tab-button="reports">Relatórios</button>
         <button class="tab-button" type="button" data-tab-button="settings">Configurações</button>
       </nav>
 
-      <section class="summary-grid" id="summaryCards" data-tab="overview reports">
+      <div class="content-shell">
+      <section class="central-menu" data-tab="overview" aria-label="Menu central">
+        <div class="central-menu-head">
+          <p class="eyebrow">Painel principal</p>
+          <h2>Seu centro financeiro</h2>
+          <p class="subtitle">Veja o resumo do mês e abra as funções quando precisar registrar, planejar ou analisar algo.</p>
+          <button id="toggleFunctionsBtn" class="primary menu-toggle" type="button" aria-expanded="false" aria-controls="functionMenuGrid">
+            Funções do app
+          </button>
+        </div>
+        <div id="functionMenuGrid" class="menu-grid" hidden>
+          <button class="menu-tile is-primary" type="button" data-tab-button="expenses" data-focus-target="txDescription">
+            <span class="action-symbol">-</span>
+            <strong>Despesas</strong>
+            <small>Lançar gastos e revisar saídas.</small>
+          </button>
+          <button class="menu-tile" type="button" data-tab-button="income" data-focus-target="incomeDescription">
+            <span class="action-symbol">+</span>
+            <strong>Rendas</strong>
+            <small>Registrar salário, comissões e entradas.</small>
+          </button>
+          <button class="menu-tile" type="button" data-tab-button="planning" data-focus-target="budgetLimit">
+            <span class="action-symbol">$</span>
+            <strong>Planejamento</strong>
+            <small>Definir metas, orçamento e contas.</small>
+          </button>
+          <button class="menu-tile" type="button" data-tab-button="investments" data-focus-target="investorHorizon">
+            <span class="action-symbol">i</span>
+            <strong>Investimentos</strong>
+            <small>Perfil, ações, cripto e carteira sugerida.</small>
+          </button>
+          <button class="menu-tile" type="button" data-tab-button="portfolio" data-focus-target="portfolioAssetName">
+            <span class="action-symbol">p</span>
+            <strong>Portfólio</strong>
+            <small>Ativos, cotações e distribuição.</small>
+          </button>
+          <button class="menu-tile" type="button" data-tab-button="cards" data-focus-target="cardMonthlySpend">
+            <span class="action-symbol">c</span>
+            <strong>Cartões</strong>
+            <small>Benefícios, perfil e cartões próprios.</small>
+          </button>
+          <button class="menu-tile" type="button" data-tab-button="miles" data-focus-target="milesUserCard">
+            <span class="action-symbol">m</span>
+            <strong>Milhas</strong>
+            <small>Calcular pontos e valor estimado.</small>
+          </button>
+          <button class="menu-tile" type="button" data-tab-button="education">
+            <span class="action-symbol">e</span>
+            <strong>Educação</strong>
+            <small>Aprender com seus dados e mercado.</small>
+          </button>
+          <button class="menu-tile" type="button" data-tab-button="automation" data-focus-target="recurringDescription">
+            <span class="action-symbol">*</span>
+            <strong>Automação</strong>
+            <small>Parcelas e recorrências mensais.</small>
+          </button>
+          <button class="menu-tile" type="button" data-tab-button="reports">
+            <span class="action-symbol">%</span>
+            <strong>Relatórios</strong>
+            <small>Dashboards, gráficos e exportação.</small>
+          </button>
+        </div>
+      </section>
+
+      <section class="summary-grid" id="summaryCards" data-tab="overview">
         <article class="summary-card">
           <span>Receitas</span>
           <strong id="incomeTotal">R$ 0,00</strong>
@@ -97,6 +148,10 @@
         <article class="summary-card">
           <span>Saldo</span>
           <strong id="balanceTotal">R$ 0,00</strong>
+        </article>
+        <article class="summary-card">
+          <span>Economia com milhas</span>
+          <strong id="milesSavingsTotal">R$ 0,00</strong>
         </article>
         <article class="summary-card">
           <span>Gasto da renda</span>
@@ -122,9 +177,9 @@
 
       <section class="layout">
         <aside class="panel stack">
-          <section class="card" data-tab="transactions">
+          <section class="card" data-tab="expenses">
             <div class="card-head">
-              <h2>Novo lançamento</h2>
+              <h2>Nova despesa</h2>
               <button id="clearFormBtn" class="ghost">Limpar</button>
             </div>
 
@@ -157,6 +212,10 @@
                 <span>Conta</span>
                 <select id="txAccount"></select>
               </label>
+              <label>
+                <span>Cartão da despesa</span>
+                <select id="txCard"></select>
+              </label>
               <label class="full">
                 <span>Observação</span>
                 <input type="text" id="txNote" placeholder="Opcional" />
@@ -169,7 +228,40 @@
             </form>
           </section>
 
-          <section class="card" data-tab="transactions reports">
+          <section class="card" data-tab="income">
+            <div class="card-head">
+              <h2>Nova renda</h2>
+            </div>
+            <form id="incomeForm" class="form-grid">
+              <label>
+                <span>Data</span>
+                <input type="date" id="incomeDate" required />
+              </label>
+              <label>
+                <span>Descrição</span>
+                <input type="text" id="incomeDescription" placeholder="Ex: Salário" required />
+              </label>
+              <label>
+                <span>Categoria</span>
+                <select id="incomeCategory"></select>
+              </label>
+              <label>
+                <span>Valor</span>
+                <input type="text" id="incomeAmount" inputmode="decimal" placeholder="0,00" required />
+              </label>
+              <label>
+                <span>Conta</span>
+                <select id="incomeAccount"></select>
+              </label>
+              <label>
+                <span>Observação</span>
+                <input type="text" id="incomeNote" placeholder="Opcional" />
+              </label>
+              <button class="primary full" type="submit">Salvar renda</button>
+            </form>
+          </section>
+
+          <section class="card" data-tab="expenses">
             <div class="card-head">
               <h2>Filtros</h2>
             </div>
@@ -206,7 +298,7 @@
             </div>
           </section>
 
-          <section class="card" data-tab="overview reports">
+          <section class="card" data-tab="overview">
             <div class="card-head">
               <h2>Insights</h2>
             </div>
@@ -219,7 +311,7 @@
             </div>
           </section>
 
-          <section class="card" data-tab="overview reports">
+          <section class="card" data-tab="overview">
             <div class="card-head">
               <h2>Coach financeiro</h2>
             </div>
@@ -228,6 +320,167 @@
               <h2>Plano de ação</h2>
             </div>
             <ol id="actionPlanList" class="coach-list action-list"></ol>
+          </section>
+
+          <section class="card" data-tab="investments">
+            <div class="card-head">
+              <h2>Perfil do investidor</h2>
+            </div>
+            <form id="investorProfileForm" class="form-grid compact-form">
+              <label>
+                <span>Horizonte</span>
+                <select id="investorHorizon">
+                  <option value="short">Até 1 ano</option>
+                  <option value="medium">1 a 5 anos</option>
+                  <option value="long">Mais de 5 anos</option>
+                </select>
+              </label>
+              <label>
+                <span>Tolerância a risco</span>
+                <select id="investorRisk">
+                  <option value="low">Baixa</option>
+                  <option value="medium">Média</option>
+                  <option value="high">Alta</option>
+                </select>
+              </label>
+              <label>
+                <span>Reserva atual</span>
+                <input type="text" id="emergencyReserve" inputmode="decimal" placeholder="0,00" />
+              </label>
+              <label>
+                <span>Aporte mensal possível</span>
+                <input type="text" id="monthlyInvestment" inputmode="decimal" placeholder="0,00" />
+              </label>
+              <label class="full">
+                <span>Objetivo principal</span>
+                <select id="investmentGoal">
+                  <option value="reserve">Montar reserva</option>
+                  <option value="income">Renda passiva</option>
+                  <option value="growth">Crescimento patrimonial</option>
+                  <option value="purchase">Compra planejada</option>
+                </select>
+              </label>
+              <label>
+                <span>Ações</span>
+                <select id="stockPreference">
+                  <option value="none">Não quero agora</option>
+                  <option value="low">Pouca exposição</option>
+                  <option value="medium">Exposição moderada</option>
+                  <option value="high">Alta exposição</option>
+                </select>
+              </label>
+              <label>
+                <span>Criptomoedas</span>
+                <select id="cryptoPreference">
+                  <option value="none">Não quero agora</option>
+                  <option value="low">Pouca exposição</option>
+                  <option value="medium">Exposição moderada</option>
+                  <option value="high">Alta exposição</option>
+                </select>
+              </label>
+              <button class="primary full" type="submit">Atualizar análise</button>
+            </form>
+          </section>
+
+          <section class="card" data-tab="cards">
+            <div class="card-head">
+              <h2>Perfil para cartão</h2>
+            </div>
+            <form id="cardProfileForm" class="form-grid compact-form">
+              <label>
+                <span>Gasto mensal no cartão</span>
+                <input type="text" id="cardMonthlySpend" inputmode="decimal" placeholder="0,00" />
+              </label>
+              <label>
+                <span>Renda mensal</span>
+                <input type="text" id="cardMonthlyIncome" inputmode="decimal" placeholder="0,00" />
+              </label>
+              <label>
+                <span>Foco do benefício</span>
+                <select id="cardBenefitFocus">
+                  <option value="cashback">Cashback</option>
+                  <option value="miles">Milhas e viagem</option>
+                  <option value="noFee">Sem anuidade</option>
+                  <option value="premium">Benefícios premium</option>
+                </select>
+              </label>
+              <label>
+                <span>Uso internacional</span>
+                <select id="cardInternationalUse">
+                  <option value="rare">Raro</option>
+                  <option value="sometimes">Às vezes</option>
+                  <option value="often">Frequente</option>
+                </select>
+              </label>
+              <label class="full">
+                <span>Cartão usado</span>
+                <select id="userCard"></select>
+              </label>
+              <button class="primary full" type="submit">Encontrar melhor cartão</button>
+            </form>
+          </section>
+
+          <section class="card" data-tab="portfolio">
+            <div class="card-head">
+              <h2>Novo ativo</h2>
+            </div>
+            <form id="portfolioForm" class="form-grid compact-form">
+              <label>
+                <span>Ativo</span>
+                <input type="text" id="portfolioAssetName" placeholder="Ex: PETR4, BTC, Tesouro" required />
+              </label>
+              <label>
+                <span>Tipo</span>
+                <select id="portfolioAssetType">
+                  <option value="Ação">Ação</option>
+                  <option value="ETF">ETF</option>
+                  <option value="FII">FII</option>
+                  <option value="Cripto">Cripto</option>
+                  <option value="Renda fixa">Renda fixa</option>
+                  <option value="Outro">Outro</option>
+                </select>
+              </label>
+              <label>
+                <span>Quantidade</span>
+                <input type="text" id="portfolioQuantity" inputmode="decimal" placeholder="0,00" required />
+              </label>
+              <label>
+                <span>Preço médio</span>
+                <input type="text" id="portfolioAvgPrice" inputmode="decimal" placeholder="0,00" required />
+              </label>
+              <label class="full">
+                <span>Preço atual</span>
+                <input type="text" id="portfolioCurrentPrice" inputmode="decimal" placeholder="0,00" />
+              </label>
+              <button class="primary full" type="submit">Adicionar ativo</button>
+            </form>
+          </section>
+
+          <section class="card" data-tab="cards">
+            <div class="card-head">
+              <h2>Meus cartões</h2>
+            </div>
+            <form id="ownedCardForm" class="form-grid compact-form">
+              <label>
+                <span>Cartão</span>
+                <input type="text" id="ownedCardName" list="cardNameSuggestions" placeholder="Ex: Nubank, Inter Black" required />
+                <datalist id="cardNameSuggestions"></datalist>
+              </label>
+              <label>
+                <span>Banco/emissor</span>
+                <input type="text" id="ownedCardIssuer" placeholder="Ex: Itaú, Santander" />
+              </label>
+              <label>
+                <span>Limite</span>
+                <input type="text" id="ownedCardLimit" inputmode="decimal" placeholder="0,00" />
+              </label>
+              <label>
+                <span>Vencimento</span>
+                <input type="number" id="ownedCardDueDay" min="1" max="28" value="10" />
+              </label>
+              <button class="primary full" type="submit">Adicionar cartão</button>
+            </form>
+            <div id="ownedCardList" class="category-list"></div>
           </section>
 
           <section class="card" data-tab="settings">
@@ -249,7 +502,7 @@
             </div>
           </section>
 
-          <section class="card" data-tab="reports settings">
+          <section class="card" data-tab="settings">
             <div class="card-head">
               <h2>Backup</h2>
             </div>
@@ -332,6 +585,104 @@
             <div id="goalList" class="category-list"></div>
           </section>
 
+          <section class="card" data-tab="investments">
+            <div class="card-head">
+              <h2>Análise de investimentos</h2>
+            </div>
+            <div id="investmentSummary" class="metric-grid"></div>
+            <div id="investmentPlan" class="recommendation-list"></div>
+            <div class="card-head small-head">
+              <h2>Triagem de ações e criptos</h2>
+              <div class="head-actions">
+                <span class="badge">cotações externas</span>
+                <button id="refreshMarketQuotesBtn" class="secondary" type="button">Atualizar mercado</button>
+              </div>
+            </div>
+            <p id="marketQuoteStatusLine" class="tip">As cotações são buscadas automaticamente em fontes externas quando esta aba é aberta.</p>
+            <div id="marketSuggestions" class="recommendation-list"></div>
+          </section>
+
+          <section class="card" data-tab="portfolio">
+            <div class="card-head">
+              <h2>Resumo do portfólio</h2>
+              <button id="refreshQuotesBtn" class="secondary" type="button">Atualizar cotações</button>
+            </div>
+            <p id="quoteStatusLine" class="tip">Cotações externas são buscadas automaticamente. Se a fonte falhar, o preço manual é mantido.</p>
+            <div id="portfolioSummary" class="metric-grid"></div>
+            <div id="portfolioAllocation" class="recommendation-list"></div>
+          </section>
+
+          <section class="card" data-tab="portfolio">
+            <div class="card-head">
+              <h2>Ativos cadastrados</h2>
+            </div>
+            <div id="portfolioList" class="category-list"></div>
+          </section>
+
+          <section class="card" data-tab="miles">
+            <div class="card-head">
+              <h2>Calculadora de milhas</h2>
+              <span id="milesCardBadge" class="badge">cartão automático</span>
+            </div>
+            <p id="milesCardLine" class="tip">Selecione um cartão e lance despesas usando esse cartão para calcular as milhas.</p>
+            <div class="form-grid compact-form">
+              <label class="full">
+                <span>Cartão usado no cálculo</span>
+                <select id="milesUserCard"></select>
+              </label>
+              <label>
+                <span>Pontos por dólar</span>
+                <input type="number" id="milesPerDollar" min="0" step="0.1" value="1.8" />
+              </label>
+              <label>
+                <span>Dólar usado pelo cartão</span>
+                <input type="text" id="cardDollarRate" inputmode="decimal" value="5,50" />
+              </label>
+              <label>
+                <span>Bônus de transferência</span>
+                <input type="number" id="transferBonus" min="0" max="200" step="1" value="0" />
+              </label>
+              <label>
+                <span>Valor estimado por 1.000 milhas</span>
+                <input type="text" id="mileValue" inputmode="decimal" value="20,00" />
+              </label>
+            </div>
+            <div id="milesResult" class="metric-grid"></div>
+          </section>
+
+          <section class="card" data-tab="education">
+            <div class="card-head">
+              <h2>Educação financeira</h2>
+              <span class="badge">personalizada</span>
+            </div>
+            <p class="tip">Conteúdo gerado a partir das suas receitas, despesas, cartão, milhas, orçamento, portfólio e perfil de investimento.</p>
+            <div id="educationSummary" class="metric-grid"></div>
+            <div id="educationModules" class="recommendation-list"></div>
+          </section>
+
+          <section class="card" data-tab="education">
+            <div class="card-head">
+              <h2>Potencial de economia e patrimônio</h2>
+            </div>
+            <div id="wealthEducation" class="recommendation-list"></div>
+          </section>
+
+          <section class="card" data-tab="education">
+            <div class="card-head">
+              <h2>Indicadores de mercado para acompanhar</h2>
+            </div>
+            <div id="marketEducation" class="recommendation-list"></div>
+          </section>
+
+          <section class="card" data-tab="cards">
+            <div class="card-head">
+              <h2>Melhores cartões para seu perfil</h2>
+              <span class="badge">triagem local</span>
+            </div>
+            <p class="tip">A base compara opções conhecidas do mercado brasileiro por perfil. Antes de contratar, confira anuidade, renda mínima e benefícios atuais no emissor.</p>
+            <div id="cardRecommendations" class="recommendation-list"></div>
+          </section>
+
           <section class="card" data-tab="automation">
             <div class="card-head">
               <h2>Compras parceladas</h2>
@@ -383,7 +734,7 @@
             <div id="accountList" class="category-list"></div>
           </section>
 
-          <section class="card" data-tab="settings planning">
+          <section class="card" data-tab="settings">
             <div class="card-head">
               <h2>Categorias</h2>
             </div>
@@ -397,7 +748,16 @@
             <div id="customCategoryList" class="category-list"></div>
           </section>
 
-          <section class="card" data-tab="overview reports">
+          <section class="card" data-tab="settings">
+            <div class="card-head">
+              <h2>Auditoria das funções</h2>
+              <span class="badge">saúde do app</span>
+            </div>
+            <div id="appHealthSummary" class="metric-grid"></div>
+            <div id="appHealthList" class="recommendation-list"></div>
+          </section>
+
+          <section class="card" data-tab="reports">
             <div class="card-head">
               <h2>Dashboard mensal</h2>
             </div>
@@ -416,6 +776,20 @@
               <label>
                 <span>Limite mensal</span>
                 <input type="text" id="budgetLimit" inputmode="decimal" placeholder="0,00" required />
+              </label>
+              <label>
+                <span>Cartão vinculado</span>
+                <select id="budgetCard"></select>
+              </label>
+              <label>
+                <span>Modelo de cartão</span>
+                <select id="budgetCardModel">
+                  <option value="none">Sem cartão</option>
+                  <option value="invoice">Controlar fatura total</option>
+                  <option value="category">Limite por categoria no cartão</option>
+                  <option value="installments">Reservar parcelas futuras</option>
+                  <option value="benefits">Otimizar milhas/cashback</option>
+                </select>
               </label>
               <button class="primary full" type="submit">Salvar limite</button>
             </form>
@@ -455,7 +829,7 @@
             <div id="recurringList" class="category-list"></div>
           </section>
 
-          <section class="card" data-tab="overview reports">
+          <section class="card" data-tab="reports">
             <div class="card-head">
               <h2>Dashboard por categoria</h2>
             </div>
@@ -465,9 +839,9 @@
             <div id="categoryList" class="category-list"></div>
           </section>
 
-          <section class="card" data-tab="transactions reports">
+          <section class="card" data-tab="expenses">
             <div class="card-head">
-              <h2>Lançamentos</h2>
+              <h2>Despesas</h2>
               <button id="exportBtn" class="secondary">Exportar CSV</button>
             </div>
             <div class="table-wrap">
@@ -486,10 +860,50 @@
               </table>
             </div>
           </section>
+
+          <section class="card" data-tab="income">
+            <div class="card-head">
+              <h2>Rendas</h2>
+              <button id="exportIncomeBtn" class="secondary">Exportar CSV</button>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Data</th>
+                    <th>Descrição</th>
+                    <th>Categoria</th>
+                    <th>Tipo</th>
+                    <th>Valor</th>
+                    <th>Obs.</th>
+                  </tr>
+                </thead>
+                <tbody id="incomeTbody"></tbody>
+              </table>
+            </div>
+          </section>
         </section>
       </section>
+      </div>
     </main>
 
+    <script src="./js/app-data.js"></script>
+    <script src="./js/app-utils.js"></script>
+    <script src="./js/app-storage.js"></script>
+    <script src="./js/market-data.js"></script>
+    <script src="./js/app-cards.js"></script>
+    <script src="./js/app-investments.js"></script>
+    <script src="./js/app-portfolio.js"></script>
+    <script src="./js/app-education.js"></script>
+    <script src="./js/app-backup.js"></script>
+    <script src="./js/app-finance.js"></script>
+    <script src="./js/app-dashboard.js"></script>
+    <script src="./js/app-forms.js"></script>
+    <script src="./js/app-navigation.js"></script>
+    <script src="./js/app-auth.js"></script>
+    <script src="./js/app-events.js"></script>
+    <script src="./js/app-pwa.js"></script>
+    <script src="./js/app-boot.js"></script>
     <script src="./app.js"></script>
   </body>
 </html>
