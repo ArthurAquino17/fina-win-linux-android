@@ -2,7 +2,14 @@ node_modules/
 
 # Capacitor/Android generated outputs
 android/.gradle/
-android/**/build/
+android/**/build/*
+!android/app/build/
+android/app/build/*
+!android/app/build/outputs/
+android/app/build/outputs/*
+!android/app/build/outputs/apk/
+android/app/build/outputs/apk/*
+!android/app/build/outputs/apk/debug/
+android/app/build/outputs/apk/debug/*
+!android/app/build/outputs/apk/debug/app-debug.apk
 android/local.properties
-*.apk
-*.aab
